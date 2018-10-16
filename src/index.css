@@ -4,3 +4,9 @@ body {
     margin: 0;
     font-family: Helvetica,Arial,sans-serif;
 }
+
+.error {
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+}
