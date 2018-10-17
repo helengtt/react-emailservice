@@ -15,8 +15,8 @@ class Main extends Component {
     //     super(props);
     //     this.state = {
     //         data:[
-    //             {"id":1, "username": "aaa", "password": "123456", "email": "abc@gmail.com", "loggedin": true },
-    //             {"id":2, "username": "bbb", "password": "987654", "email": "efg@gmail.com", "loggedin": false }
+    //             {"id":1, "email": "abc@gmail.com", "password": "123456", "loggedin": true },
+    //             {"id":2, "email": "efg@gmail.com", "password": "987654", "loggedin": false }
     //         ]
     //     }
     // }
