@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button, Form, FormGroup, FormControl, ControlLabel, Col} from 'react-bootstrap';
 
 class EmailAddress extends Component {
   constructor(props) {
@@ -12,10 +13,7 @@ class EmailAddress extends Component {
 
   // check if the value of addresses is valid
   isValid() {
-    const addresses = this.props.value.split(',');
-    if (addresses.length === 0) {
-      return true;
-    }
+    const addresses = this.props.value.split(/,\s*|;\s*/);
     for (const address of addresses) { 
       if(!address.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
         return false;
@@ -26,7 +24,7 @@ class EmailAddress extends Component {
 
   render() {
     // error address is in red background__TOBEFixed
-    const addresses = this.props.value.split(',');
+    const addresses = this.props.value.split(/,\s*|;\s*/);
     for (const address of addresses) { 
       if(!address.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
         address = <span className="error">{address}</span>;
@@ -34,14 +32,17 @@ class EmailAddress extends Component {
     }
 
     return (
-      <div>
+      <FormGroup>
+        <Col componentClass={ControlLabel} sm={1}>
+          {this.props.label}
+        </Col>
         <input 
           type="text"
-          className={this.props.className} 
+          className={this.props.className}
           placeholder={this.props.placeholder} 
           value={this.props.value}
           onChange={this.handleChange} />
-      </div>
+      </FormGroup>
     );
   }
 }
@@ -75,20 +76,23 @@ class Recipients extends Component {
   render () {
     return (
       <div>
-        <EmailAddress 
-          className="to" 
+        <EmailAddress
+          className="to"
+          label="To"
           placeholder="To"
           value={this.state.to}
           ref="to"  // Add ref to invoke child componnent
           onEmailAddressChange={this.onToRecipientsChange} />
         <EmailAddress 
-          className="cc" 
+          className="cc"
+          label="Cc" 
           placeholder="Cc"
           value={this.state.cc}
           ref="cc"
           onEmailAddressChange={this.onCcRecipientsChange} />
         <EmailAddress 
-          className="bcc" 
+          className="bcc"
+          label="Bcc" 
           placeholder="Bcc"
           value={this.state.bcc}
           ref="bcc"
@@ -99,28 +103,86 @@ class Recipients extends Component {
 }
 
 class From extends Component {
+  constructor(props){
+    super(props);
+  }
+  /*
+    TODO: Need a way to grab the user's email address from user data when loggedin=true.
+   */
   render() {
     return (
-      <input type="text" name="from" placeholder="From"/>
+      <input 
+        type="text" 
+        name="from" 
+        placeholder="From"
+        value={this.props.value} />
     );
   }
 }
 
 class Subject extends Component {
+  constructor(props){
+    super(props);
+    this.handleChange=this.handleChange.bind(this);
+    this.state = {value:''};
+  }
+
+  handleChange(e){
+    this.setState({value:e.target.value});
+  }
+
+  isValid(){
+    if (this.state.value.length > 255){
+      return false;
+    }
+    return true;
+  }
+
   render() {
     return (
-      <input type="text" name="subject" placeholder="Subject"/>
+      <input 
+        type="text" 
+        name="subject"
+        placeholder="Subject"
+        value={this.state.value}
+        onChange={this.handleChange} />
     );
   }
 }
 
 class Body extends Component {
+  constructor(props){
+    super(props);
+    this.handleChange=this.handleChange.bind(this);
+    this.state = {value:''};
+  }
+
+  handleChange(e){
+    this.setState({value:e.target.value});
+  }
+
+  isValid(){
+    // ... (under certain conditions return false)
+    return true;
+  }
+
   render() {
     return (
-      <textarea></textarea>
+      <textarea
+        type="text" 
+        name="body"
+        value={this.state.value}
+        onChange={this.handleChange} >
+      </textarea>
     );
   }
 }
+
+const fakeAPI = {
+  send(data, cb) {
+    setTimeout(cb, 100); // fake async
+  }
+};
 
 class Sendmail extends Component {
   constructor(props) {
@@ -130,29 +192,48 @@ class Sendmail extends Component {
 
   handleSubmit(e){
     e.preventDefault();
-    if (this.refs.recipients.isValid()) {
-      console.log('email sent');
-      alert ('email sent successfully!');
+    if (!this.refs.recipients.isValid()) {
+      window.alert('Error: Please add at least one valid recipient.');
+    } else if (!(this.refs.subject.isValid() || this.refs.body.isValid())) {
+      if(window.confirm('Send this message without a subject or text in the body?')){
+        this.send();
+      }
     } else {
-      console.log('error');
-      alert('error!');
-      // error;
+      this.send();
     }
+  }
+
+  send(){
+    const recipients = this.refs.recipients.refs;
+    let data = {
+      to:recipients.to.value,
+      cc:recipients.cc.value,
+      bcc:recipients.bcc.value,
+      from:this.refs.from.value,
+      subject:this.refs.subject.value,
+      body:this.refs.body.value,
+    }
+
+    /* TODO call backend API with data */
+    fakeAPI.send(data, () => { window.alert ('email sent successfully!');})
+
   }
 
   render() {
     return (
-      <div>
+      <Form horizontal onSubmit={this.handleSubmit}>
         <h2>New Message</h2>
-        <form onSubmit={this.handleSubmit}>
-          <Recipients ref="recipients"/>
-          <From />
-          <Subject />
-          <Body />
-          <input type="submit" value="Send" />
-          <input type="button" value="SignOut" />
-        </form>
-      </div>
+        <Recipients ref="recipients"/>
+        <From ref="from" />
+        <Subject ref="subject"/>
+        <Body ref="body"/>
+          <Button type="submit" bsStyle="primary">
+            Send
+          </Button>
+          <Button bsStyle="primary">
+            SignOut
+          </Button>
+      </Form>
     );
   }
 }
