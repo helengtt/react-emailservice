@@ -5,6 +5,22 @@ body {
     font-family: Helvetica,Arial,sans-serif;
 }
 
+@media all and (min-width: 480px) {
+    .login {
+      padding: 60px 0;
+    }
+  
+    .login Form {
+      margin: 0 auto;
+      max-width: 360px;
+    }
+}  
+
+h1 {
+    text-align: center;
+    padding: 30px 0;
+}
+
 .error {
     color: white;
     background-color: red;

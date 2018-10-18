@@ -36,12 +36,14 @@ class EmailAddress extends Component {
         <Col componentClass={ControlLabel} sm={1}>
           {this.props.label}
         </Col>
-        <input 
-          type="text"
-          className={this.props.className}
-          placeholder={this.props.placeholder} 
-          value={this.props.value}
-          onChange={this.handleChange} />
+        <Col sm={10}>
+          <FormControl 
+            type="text"
+            className={this.props.className}
+            placeholder={this.props.placeholder} 
+            value={this.props.value}
+            onChange={this.handleChange} />
+        </Col>
       </FormGroup>
     );
   }
@@ -111,11 +113,18 @@ class From extends Component {
    */
   render() {
     return (
-      <input 
-        type="text" 
-        name="from" 
-        placeholder="From"
-        value={this.props.value} />
+      <FormGroup>
+        <Col componentClass={ControlLabel} sm={1}>
+          From
+        </Col>
+        <Col sm={10}>      
+          <FormControl 
+            type="text" 
+            name="from" 
+            placeholder="From"
+            value={this.props.value} />
+        </Col>
+      </FormGroup>
     );
   }
 }
@@ -140,12 +149,19 @@ class Subject extends Component {
 
   render() {
     return (
-      <input 
-        type="text" 
-        name="subject"
-        placeholder="Subject"
-        value={this.state.value}
-        onChange={this.handleChange} />
+      <FormGroup>
+        <Col componentClass={ControlLabel} sm={1}>
+          Subject
+        </Col>
+        <Col sm={10}>      
+          <FormControl
+            type="text" 
+            name="subject"
+            placeholder="Subject"
+            value={this.state.value}
+            onChange={this.handleChange} />
+        </Col>
+      </FormGroup>
     );
   }
 }
@@ -168,12 +184,17 @@ class Body extends Component {
 
   render() {
     return (
-      <textarea
-        type="text" 
-        name="body"
-        value={this.state.value}
-        onChange={this.handleChange} >
-      </textarea>
+      <FormGroup>
+      <Col smOffset={1} sm={10}>
+        <FormControl 
+          type="text" 
+          name="body"
+          componentClass="textarea"
+          style={{height: "200px"}}
+          value={this.state.value}
+          onChange={this.handleChange} />
+      </Col>
+      </FormGroup>
     );
   }
 }
@@ -222,17 +243,25 @@ class Sendmail extends Component {
   render() {
     return (
       <Form horizontal onSubmit={this.handleSubmit}>
-        <h2>New Message</h2>
+        <Col smOffset={1}>
+          <h2>New Message</h2>
+        </Col>
         <Recipients ref="recipients"/>
         <From ref="from" />
         <Subject ref="subject"/>
         <Body ref="body"/>
-          <Button type="submit" bsStyle="primary">
-            Send
-          </Button>
-          <Button bsStyle="primary">
-            SignOut
-          </Button>
+        <FormGroup>
+          <Col smOffset={10} sm={1}>
+            <Button type="submit" bsStyle="primary">
+              Send
+            </Button>
+          </Col>
+          <Col smOffset={5} sm={6}>
+            <Button bsStyle="primary">
+              SignOut
+            </Button>
+          </Col>
+        </FormGroup>
       </Form>
     );
   }
