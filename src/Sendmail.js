@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import fakeAuth from "./Auth";
+import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col} from 'react-bootstrap';
 
+//component for To, Cc and Bcc
 class EmailAddress extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +52,7 @@ class EmailAddress extends Component {
   }
 }
 
+//lift up To, Cc and Bcc to
 class Recipients extends Component {
   constructor(props) {
     super(props);
@@ -205,6 +209,20 @@ const fakeAPI = {
   }
 };
 
+const LogoutButton = withRouter(({ history }) => (
+    <Button
+      type="button" 
+      bsStyle="primary"
+      onClick={() => { 
+        fakeAuth.isAuthenticated = false;
+        fakeAuth.senderEmail = "";
+        history.push('/');
+      }}
+    >
+      LogOut
+    </Button>
+))
+
 class Sendmail extends Component {
   constructor(props) {
     super(props);
@@ -257,9 +275,7 @@ class Sendmail extends Component {
             </Button>
           </Col>
           <Col smOffset={5} sm={6}>
-            <Button bsStyle="primary">
-              SignOut
-            </Button>
+            <LogoutButton />
           </Col>
         </FormGroup>
       </Form>

@@ -1,5 +1,21 @@
 import React, { Component } from "react";
+import fakeAuth from "./Auth";
+import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col, ButtonToolbar} from 'react-bootstrap';
+
+const LoginButton = withRouter(({ history }) => (
+    <Button 
+        type="button" 
+        bsStyle="primary"
+        onClick={() => { 
+            fakeAuth.isAuthenticated = true;
+            fakeAuth.senderEmail = "test@test.com"; //TODO
+            history.push('/');
+        }}
+    >
+        Login
+    </Button>
+  ))
 
 class Login extends Component {
   render() {
@@ -25,11 +41,9 @@ class Login extends Component {
                 </FormGroup>
                 <FormGroup className="btn-login">
                     <Col smOffset={5} sm={6}>
-                        <Button type="submit" bsStyle="primary">
-                            Login
-                        </Button>
+                        <LoginButton />
                     </Col>
-                </FormGroup>
+                </FormGroup>    
             </Form>
         </div>
     );
