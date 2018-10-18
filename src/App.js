@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Login from "./Login";
-import fakeAuth from "./Auth";
+import fakeAPI from "./Auth";
 import Sendmail from "./Sendmail";
 import "./index.css";
 
@@ -10,7 +10,7 @@ class App extends Component {
         return (
             <Router>
                 <Route exact path="/" render={() => (
-                    fakeAuth.isAuthenticated ? (
+                    fakeAPI.isAuthenticated ? (
                     <Sendmail/>
                     ) : (
                     <Login/>

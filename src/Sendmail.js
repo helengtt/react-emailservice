@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fakeAuth from "./Auth";
+import fakeAPI from "./API";
 import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col} from 'react-bootstrap';
 
@@ -203,20 +203,13 @@ class Body extends Component {
   }
 }
 
-const fakeAPI = {
-  send(data, cb) {
-    setTimeout(cb, 100); // fake async
-  }
-};
 
 const LogoutButton = withRouter(({ history }) => (
     <Button
       type="button" 
       bsStyle="primary"
       onClick={() => { 
-        fakeAuth.isAuthenticated = false;
-        fakeAuth.senderEmail = "";
-        history.push('/');
+        fakeAPI.logout(() => history.push('/'))
       }}
     >
       LogOut
@@ -252,10 +245,8 @@ class Sendmail extends Component {
       subject:this.refs.subject.value,
       body:this.refs.body.value,
     }
-
     /* TODO call backend API with data */
     fakeAPI.send(data, () => { window.alert ('email sent successfully!');})
-
   }
 
   render() {
@@ -265,7 +256,7 @@ class Sendmail extends Component {
           <h2>New Message</h2>
         </Col>
         <Recipients ref="recipients"/>
-        <From ref="from" />
+        <From ref="from" value={fakeAPI.senderEmail}/>
         <Subject ref="subject"/>
         <Body ref="body"/>
         <FormGroup>

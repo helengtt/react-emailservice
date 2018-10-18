@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fakeAuth from "./Auth";
+import fakeAPI from "./Auth";
 import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col, ButtonToolbar} from 'react-bootstrap';
 
@@ -7,10 +7,8 @@ const LoginButton = withRouter(({ history }) => (
     <Button 
         type="button" 
         bsStyle="primary"
-        onClick={() => { 
-            fakeAuth.isAuthenticated = true;
-            fakeAuth.senderEmail = "test@test.com"; //TODO
-            history.push('/');
+        onClick={() => {
+            fakeAPI.login("test@test.com", () =>  history.push('/'));
         }}
     >
         Login
@@ -28,7 +26,7 @@ class Login extends Component {
                         Username
                     </Col>
                     <Col sm={8}>
-                        <FormControl type="email" placeholder="Email" />
+                        <FormControl type="email" placeholder="test@test.com" />
                     </Col>
                 </FormGroup>
                 <FormGroup>
