@@ -3,7 +3,7 @@ import fakeAPI from "./API";
 import { withRouter } from "react-router-dom";
 import { Button, Form, FormGroup, FormControl, ControlLabel, Col} from 'react-bootstrap';
 
-//component for To, Cc and Bcc
+// component for To, Cc and Bcc
 class EmailAddress extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class EmailAddress extends Component {
   }
 
   render() {
-    // error address is in red background__TOBEFixed
+    // error address is in red background__TODO
     const addresses = this.props.value.split(/,\s*|;\s*/);
     for (const address of addresses) { 
       if(!address.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
@@ -52,7 +52,7 @@ class EmailAddress extends Component {
   }
 }
 
-//lift up To, Cc and Bcc to
+// component contain To, Cc and Bcc
 class Recipients extends Component {
   constructor(props) {
     super(props);
@@ -112,9 +112,6 @@ class From extends Component {
   constructor(props){
     super(props);
   }
-  /*
-    TODO: Need a way to grab the user's email address from user data when loggedin=true.
-   */
   render() {
     return (
       <FormGroup>
@@ -203,7 +200,7 @@ class Body extends Component {
   }
 }
 
-
+// for router
 const LogoutButton = withRouter(({ history }) => (
     <Button
       type="button" 
@@ -235,6 +232,7 @@ class Sendmail extends Component {
     }
   }
 
+  // send data to backend
   send(){
     const recipients = this.refs.recipients.refs;
     let data = {

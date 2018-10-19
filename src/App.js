@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Login from "./Login";
-import fakeAPI from "./Auth";
+import fakeAPI from "./API";
 import Sendmail from "./Sendmail";
 import "./index.css";
 
