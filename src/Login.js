@@ -17,43 +17,10 @@ const LoginButton = withRouter(({ history }) => (
   ))
 
 class Login extends Component {
-    constructor(props){
-        super(props);
-        this.onUsernameChange = this.onUsernameChange.bind(this);
-        this.onPasswordChange = this.onPasswordChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.state={username: "", password:""};
-    }
-
-    onUsernameChange(e) {
-        this.setState({username: e.target.value});
-    }
-
-    onPasswordChange(e) {
-        this.setState({password: e.target.value});
-    }
-    
-    handleSubmit(e){
-        e.preventDefault();
-        const username = this.state.username;
-        const password = this.state.password;
-        if (username===0 || !username.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)) {
-          window.alert('Username or Password is invalid.');
-          return false;
-        } else {
-          this.login();
-        }
-    }
-
-    login(){
-        /* TODO call backend API with data */
-        fakeAPI.login(this.state.username, () => { console.log ('login successfully');})
-    }
-
     render() {
         return (
             <div className="login">
-                <Form horizontal onSubmit={this.handleSubmit}>
+                <Form horizontal>
                     <h1>LogIn</h1>
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={3}>
