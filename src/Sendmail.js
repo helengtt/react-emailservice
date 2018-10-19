@@ -209,7 +209,7 @@ const LogoutButton = withRouter(({ history }) => (
         fakeAPI.logout(() => history.push('/'))
       }}
     >
-      LogOut
+      Logout
     </Button>
 ))
 

@@ -21,7 +21,7 @@ class Login extends Component {
         return (
             <div className="login">
                 <Form horizontal>
-                    <h1>LogIn</h1>
+                    <h1>Email Service</h1>
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={3}>
                             Username
